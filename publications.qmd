@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output:
   html_document:
     toc: true
-    toc-depth: 4
+    toc-depth: 3
     number-sections: true
     embed-resources: true
     code_folding: true
@@ -36,9 +36,6 @@ nocite: |
 This document shows how to perform some exploratory analysis of [GRBio resarch group](http://grbio.upc.edu) production during 2023 and 2024 through the analysis of a bibtex file containing diverse type of references.
 
 ```{r}
-if (!requireNamespace("bib2df", quietly = TRUE)) install.packages("bib2df")
-
-
 library(bib2df)
 library(dplyr)
 library(tidyr)
