@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.47">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alex Sanchez-Pla">
+<meta name="dcterms.date" content="2024-07-11">
+
+<title>Data mining on GRBio (2023) publications list</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="publications_files/libs/clipboard/clipboard.min.js"></script>
+<script src="publications_files/libs/quarto-html/quarto.js"></script>
+<script src="publications_files/libs/quarto-html/popper.min.js"></script>
+<script src="publications_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="publications_files/libs/quarto-html/anchor.min.js"></script>
+<link href="publications_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="publications_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="publications_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="publications_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="publications_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="publications_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="publications_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data mining on GRBio (2023) publications list</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alex Sanchez-Pla </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 11, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This document shows how to perform some exploratory analysis of <a href="http://grbio.upc.edu">GRBio resarch group</a> production during 2023 and 2024 through the analysis of a bibtex file containing diverse type of references.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"bib2df"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) <span class="fu">install.packages</span>(<span class="st">"bib2df"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bib2df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'bib2df' was built under R version 4.4.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Adjuntando el paquete: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidytext' was built under R version 4.4.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wordcloud)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'wordcloud' was built under R version 4.4.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cargando paquete requerido: RColorBrewer</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'openxlsx' was built under R version 4.4.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Adjuntando el paquete: 'kableExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+</div>
+</section>
+<section id="get-the-data" class="level1">
+<h1>Get the data</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leer el archivo .bib</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir el archivo .bib a un dataframe</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>bibfile <span class="ot">&lt;-</span> <span class="st">"Articles/GRBioUB_refsAll_202324.bib"</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>bib_df <span class="ot">&lt;-</span> <span class="fu">bib2df</span>(bibfile)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># str(bib_df)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="basic-information" class="level1">
+<h1>Basic information</h1>
+<section id="number-of-entries" class="level2">
+<h2 class="anchored" data-anchor-id="number-of-entries">Number of entries</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>num_articles <span class="ot">&lt;-</span> <span class="fu">nrow</span>(bib_df)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>num_articles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 44</code></pre>
+</div>
+</div>
+</section>
+<section id="number-of-authors-per-paper" class="level2">
+<h2 class="anchored" data-anchor-id="number-of-authors-per-paper">Number of authors per paper</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bib_df <span class="ot">&lt;-</span> bib_df <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">num_authors =</span> <span class="fu">sapply</span>(AUTHOR, <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unlist</span>(<span class="fu">strsplit</span>(x, <span class="st">" and "</span>))))) </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>numAuthors <span class="ot">&lt;-</span> bib_df<span class="sc">$</span>num_authors[bib_df<span class="sc">$</span>num_authors <span class="sc">&lt;</span> <span class="dv">100</span>]</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(numAuthors, <span class="at">main=</span><span class="st">"Distribution of number of authors per paper"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="publications_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(numAuthors)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(skimr<span class="sc">::</span><span class="fu">skim</span> (numAuthors))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              1         
+skim_type     "numeric" 
+skim_variable "data"    
+n_missing     "0"       
+complete_rate "1"       
+numeric.mean  "11.55814"
+numeric.sd    "10.66213"
+numeric.p0    "3"       
+numeric.p25   "4"       
+numeric.p50   "9"       
+numeric.p75   "12.5"    
+numeric.p100  "59"      
+numeric.hist  "▇▂▁▁▁"   </code></pre>
+</div>
+</div>
+</section>
+<section id="journals" class="level2">
+<h2 class="anchored" data-anchor-id="journals">Journals</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>journal_freq <span class="ot">&lt;-</span> bib_df <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(JOURNAL)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(JOURNAL) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Truncar nombres de revistas demasiado largos</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>journal_freq <span class="ot">&lt;-</span> journal_freq <span class="sc">%&gt;%</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">JOURNAL =</span> <span class="fu">ifelse</span>(<span class="fu">nchar</span>(JOURNAL) <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="fu">paste0</span>(<span class="fu">substr</span>(JOURNAL, <span class="dv">1</span>, <span class="dv">50</span>), <span class="st">"..."</span>), JOURNAL))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>journal_freq <span class="sc">%&gt;%</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>), <span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">JOURNAL</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">World Journal of Advanced Research and Reviews</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Briefings in Bioinformatics</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Frontiers in endocrinology</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nutrients</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AIMS Mathematics 2023 10:23218</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age and ageing</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">American journal of perinatology</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Applied Soft Computing</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ciencia Latina Revista Científica Multidisciplinar</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EClinicalMedicine</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Earth-Science Reviews</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Entomological Science</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">European journal of neurology</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Food &amp; function</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Frontiers in Immunology</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Frontiers in Pediatrics</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Frontiers in nutrition</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Genome Biology</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Insects</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">International Journal of Hygiene and Environmental...</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">International journal of molecular sciences</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Journal of gastrointestinal surgery : official jou...</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Journal of glaucoma</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Methods in molecular biology (Clifton, N.J.)</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Molecular nutrition &amp; food research</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Neurobiology of stress</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Neurogastroenterology and motility</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Neurology</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Neurology: Neuroimmunology and NeuroInflammation</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">New Insights on Principal Component Analysis</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PLOS One</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pediatric blood &amp; cancer</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pharmaceuticals (Basel, Switzerland)</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RIED-Revista Iberoamericana de Educacion a Distanc...</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Revista Chilena de Salud Pública</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Studies in Systems, Decision and Control</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Surgery for Obesity and Related Diseases</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The EMBO Journal</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Weed Research</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>journal_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(journal_freq, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(JOURNAL, <span class="sc">-</span>n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="at">n =</span> <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Frecuencia de Publicaciones por Revista"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Revista"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)) </span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(journal_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="publications_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="most-common-keywords" class="level2">
+<h2 class="anchored" data-anchor-id="most-common-keywords">Most common keywords</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>keywords <span class="ot">&lt;-</span> bib_df <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(KEYWORDS)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, KEYWORDS, <span class="at">token =</span> <span class="st">"regex"</span>, <span class="at">pattern =</span> <span class="st">","</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>titlewords <span class="ot">&lt;-</span> bib_df <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(TITLE)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, TITLE, <span class="at">token =</span> <span class="st">"regex"</span>, <span class="at">pattern =</span> <span class="st">" "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stopwords<span class="sc">::</span><span class="fu">stopwords</span>(<span class="st">"en"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar la nube de palabras</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(<span class="at">words =</span> keywords<span class="sc">$</span>word, <span class="at">freq =</span> keywords<span class="sc">$</span>n, <span class="at">min.freq =</span> <span class="dv">1</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">max.words =</span> <span class="dv">200</span>, <span class="at">random.order =</span> <span class="cn">FALSE</span>, <span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="publications_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(<span class="at">words =</span> titlewords<span class="sc">$</span>word, <span class="at">freq =</span> titlewords<span class="sc">$</span>n, <span class="at">min.freq =</span> <span class="dv">1</span>,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">max.words =</span> <span class="dv">200</span>, <span class="at">random.order =</span> <span class="cn">FALSE</span>, <span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="publications_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="publications-2023-24" class="level1 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Publications 2023-24</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Adel2024" class="csl-entry" role="listitem">
+Adel, Maja R., Ester Antón-Galindo, Edurne Gago-Garcia, Angela Arias-Dimas, Concepció Arenas, Rafael Artuch, Bru Cormand, and Noèlia Fernàndez-Castillo. 2024. <span>“Decreased Brain Serotonin in Rbfox1 Mutant Zebrafish and Partial Reversion of Behavioural Alterations by the SSRI Fluoxetine.”</span> <em>Pharmaceuticals (Basel, Switzerland)</em> 17 (February). <a href="https://doi.org/10.3390/PH17020254">https://doi.org/10.3390/PH17020254</a>.
+</div>
+<div id="ref-Anton2023" class="csl-entry" role="listitem">
+Anton, Alfonso, David Serrano, Karen Nolivos, Gianluca Fatti, Natasa Zmuc, Carlos Crespo, Toni Monleon-Getino, et al. 2023. <span>“Cost-Effectiveness of Screening for Open Angle Glaucoma Compared with Opportunistic Case Finding.”</span> <em>Journal of Glaucoma</em> 32 (February): 72–79. <a href="https://doi.org/10.1097/IJG.0000000000002132">https://doi.org/10.1097/IJG.0000000000002132</a>.
+</div>
+<div id="ref-Ayala2023" class="csl-entry" role="listitem">
+Ayala, Nicolas, Antonio Monleon-Getino, Jaume Canela-Soler, and Tomas Chadwick-Lobos. 2023. <span>“Random Forest Using Smartphone GPS in First Wave of COVID-19 in the Maule Region, Chile.”</span> <em>World Journal of Advanced Research and Reviews</em> 2023: 531–36. <a href="https://doi.org/10.30574/wjarr.2023.17.1.0098">https://doi.org/10.30574/wjarr.2023.17.1.0098</a>.
+</div>
+<div id="ref-Ayala2023d" class="csl-entry" role="listitem">
+Ayala-Aldana, Nicolas, Antonio Monleon-Getino, Jaume Canela-Soler, Silvia Sancliment i Guitart, Carmen Serrano-Munuera, Nicolas Ayala-Aldana, Antonio Monleon-Getino, Jaume Canela-Soler, Silvia Sancliment i Guitart, and Carmen Serrano-Munuera. 2023. <span>“COVID-19 Temporal Dynamic as a Hospital Management Method: Case Study of the Martorell Hospital.”</span> <em>World Journal of Advanced Research and Reviews</em> 17 (January): 856–61. <a href="https://doi.org/10.30574/WJARR.2023.17.1.0067">https://doi.org/10.30574/WJARR.2023.17.1.0067</a>.
+</div>
+<div id="ref-Monleon2023y" class="csl-entry" role="listitem">
+Ayala-Aldana, Nicolas, Antonio Monleon-Getino, Jaume Canela-Soler, Petia Radeva, Javier Rodenas, Nicolas Ayala-Aldana, Antonio Monleon-Getino, Jaume Canela-Soler, Petia Radeva, and Javier Rodenas. 2023. <span>“A Bootstrap Method Based on Linear Regression to Estimate COVID-19 Ecological Risk in Catalonia.”</span> <em>World Journal of Advanced Research and Reviews</em> 17 (January): 324–32. <a href="https://doi.org/10.30574/WJARR.2023.17.1.0047">https://doi.org/10.30574/WJARR.2023.17.1.0047</a>.
+</div>
+<div id="ref-Monleon2024z" class="csl-entry" role="listitem">
+Ayala-Aldana, Nicolas, Antonio Monleon-Getino, Jaume Canela-Soler, and Erika Retamal-Contreras. 2023. <span>“Predicción Con Modelo ARIMA En Series Temporales de Salmonella Spp En Chile Entre 2014-2022.”</span> <em>Ciencia Latina Revista Científica Multidisciplinar</em> 7 (January): 1337–51. <a href="https://doi.org/10.37811/CL_RCM.V7I1.4484">https://doi.org/10.37811/CL_RCM.V7I1.4484</a>.
+</div>
+<div id="ref-Ayala2023e" class="csl-entry" role="listitem">
+Ayala-Aldana, Nicolas, Antonio Monleón-Getino, and Jaume Canela Soler Jaume Canela Soler. 2023. <span>“Desafíos Para El Análisis Predictivo En El Pronóstico Clínico: Índice de Charlson Como Predictor Clásico En Epidemiología.”</span> <em>Revista Chilena de Salud Pública</em> 26 (July): 238. <a href="https://doi.org/10.5354/0719-5281.2022.71241">https://doi.org/10.5354/0719-5281.2022.71241</a>.
+</div>
+<div id="ref-Besalu2023a" class="csl-entry" role="listitem">
+Besalú, Mireia, Giulia Binotto, Mireia Besalú, and Giulia Binotto. 2023. <span>“Time-Dependent Non-Homogeneous Stochastic Epidemic Model of SIR Type.”</span> <em>AIMS Mathematics 2023 10:23218</em> 8: 23218–46. <a href="https://doi.org/10.3934/MATH.20231181">https://doi.org/10.3934/MATH.20231181</a>.
+</div>
+<div id="ref-Campana2023" class="csl-entry" role="listitem">
+Campaña, María, Rafael del Hoyo, Antonio Monleón-Getino, and Javier Checa. 2023. <span>“Predicting Legionella Contamination in Cooling Towers and Evaporative Condensers from Microbiological and Physicochemical Parameters.”</span> <em>International Journal of Hygiene and Environmental Health</em> 248 (March). <a href="https://doi.org/10.1016/j.ijheh.2023.114117">https://doi.org/10.1016/j.ijheh.2023.114117</a>.
+</div>
+<div id="ref-Minarro2023b" class="csl-entry" role="listitem">
+Carmona-Maurici, Júlia, Araceli Rosa, Natalia Azcona-Granada, Elionora Peña, David Ricart-Jané, Anna Viñas, Maria Dolores López-Tejero, et al. 2023. <span>“Irisin as a Novel Biomarker of Subclinical Atherosclerosis in Severe Obesity.”</span> <em>International Journal of Molecular Sciences</em> 24 (May). <a href="https://doi.org/10.3390/IJMS24098171">https://doi.org/10.3390/IJMS24098171</a>.
+</div>
+<div id="ref-Verdaguer2023" class="csl-entry" role="listitem">
+Corral-Pujol, Marta, Berta Arpa, Estela Rosell-Mases, Leire Egia-Mendikute, Conchi Mora, Thomas Stratmann, Alex Sanchez, et al. 2023b. <span>“NOD Mouse Dorsal Root Ganglia Display Morphological and Gene Expression Defects Before and During Autoimmune Diabetes Development.”</span> <em>Frontiers in Endocrinology</em> 14. <a href="https://doi.org/10.3389/FENDO.2023.1176566">https://doi.org/10.3389/FENDO.2023.1176566</a>.
+</div>
+<div id="ref-SanchezPla2023e" class="csl-entry" role="listitem">
+———, et al. 2023a. <span>“NOD Mouse Dorsal Root Ganglia Display Morphological and Gene Expression Defects Before and During Autoimmune Diabetes Development.”</span> <em>Frontiers in Endocrinology</em> 14. <a href="https://doi.org/10.3389/FENDO.2023.1176566">https://doi.org/10.3389/FENDO.2023.1176566</a>.
+</div>
+<div id="ref-SanchezPla2023c" class="csl-entry" role="listitem">
+David, Romain, Arina Rybina, Jean‐Marie Burel, Jean‐Karim Heriche, Pauline Audergon, Jan‐Willem Boiten, Frederik Coppens, et al. 2023. <span>“<span>‘Be Sustainable’</span>: EOSC‐life Recommendations for Implementation of FAIR Principles in Life Science Data Handling.”</span> <em>The EMBO Journal</em> 42 (December). <a href="https://doi.org/10.15252/EMBJ.2023115008">https://doi.org/10.15252/EMBJ.2023115008</a>.
+</div>
+<div id="ref-Delclos2023" class="csl-entry" role="listitem">
+Delclòs, Xavier, Enrique Peñalver, Eduardo Barrón, David Peris, David A. Grimaldi, Michael Holz, Conrad C. Labandeira, et al. 2023. <span>“Amber and the Cretaceous Resinous Interval.”</span> <em>Earth-Science Reviews</em> 243 (August). <a href="https://doi.org/10.1016/J.EARSCIREV.2023.104486">https://doi.org/10.1016/J.EARSCIREV.2023.104486</a>.
+</div>
+<div id="ref-Greoraci2023" class="csl-entry" role="listitem">
+Fernández, Angela Gregoraci, Juan José Comuñas Gómez, Olalla Rodriguez-Losada, Vanessa Flores España, Anna Gros Turpin, Santiago Pérez Hoyos, and Félix Castillo Salinas. 2023. <span>“Nasal High-Flow for Weaning Preterm Newborns with Risk of Chronic Lung Disease from nCPAP.”</span> <em>American Journal of Perinatology</em> 40 (October): 937–44. <a href="https://doi.org/10.1055/S-0041-1732422">https://doi.org/10.1055/S-0041-1732422</a>.
+</div>
+<div id="ref-SanchezPla2023g" class="csl-entry" role="listitem">
+Fissolo, Nicolas, Laura Calvo-Barreiro, Herena Eixarch, Ursula Boschert, Luisa M. Villar, Lucienne Costa-Frossard, Mireia Ferrer, et al. 2023. <span>“Molecular Signature Associated with Cladribine Treatment in Patients with Multiple Sclerosis.”</span> <em>Frontiers in Immunology</em> 14 (July): 1233546. <a href="https://doi.org/10.3389/FIMMU.2023.1233546/BIBTEX">https://doi.org/10.3389/FIMMU.2023.1233546/BIBTEX</a>.
+</div>
+<div id="ref-SanchezPla2023d" class="csl-entry" role="listitem">
+Fissolo, Nicolás, Agustin Pappolla, Jordi Rio, Luisa M. Villar, Santiago Perez-Hoyos, Alex Sanchez, Lucía Gutierrez, Xavier Montalban, and Manuel Comabella. 2023. <span>“Serum Levels of CXCL13 Are Associated with Teriflunomide Response in Patients with Multiple Sclerosis.”</span> <em>Neurology: Neuroimmunology and NeuroInflammation</em> 10 (January). <a href="https://doi.org/10.1212/NXI.0000000000200050/ASSET/73FA320B-3EE4-4244-B8A2-CE6C5679D0C7/ASSETS/GRAPHIC/NXI.0000000000200050TU1.JPEG">https://doi.org/10.1212/NXI.0000000000200050/ASSET/73FA320B-3EE4-4244-B8A2-CE6C5679D0C7/ASSETS/GRAPHIC/NXI.0000000000200050TU1.JPEG</a>.
+</div>
+<div id="ref-SanchezPla2023b" class="csl-entry" role="listitem">
+Flores-Arriaga, Joel, María C. Aso, Arantzazu Izagirre, Ami D. Sperber, Olafur S. Palsson, Shrikant I. Bangdiwala, Ángel Lanas, et al. 2023. <span>“Prevalence and Description of Disorders of Gut-Brain Interaction in Spain According to the Results of the Rome Foundation Global Epidemiology Study.”</span> <em>Neurogastroenterology and Motility</em> 35 (June). <a href="https://doi.org/10.1111/NMO.14582">https://doi.org/10.1111/NMO.14582</a>.
+</div>
+<div id="ref-Garrido2023" class="csl-entry" role="listitem">
+Garrido-Martín, Diego, Miquel Calvo, Ferran Reverter, and Roderic Guigó. 2023. <span>“A Fast Non-Parametric Test of Association for Multiple Traits.”</span> <em>Genome Biology</em> 24 (December): 1–32. <a href="https://doi.org/10.1186/S13059-023-03076-8/FIGURES/4">https://doi.org/10.1186/S13059-023-03076-8/FIGURES/4</a>.
+</div>
+<div id="ref-SanchezPla2023k" class="csl-entry" role="listitem">
+Geertsema, J., M. Kratochvil, R. González-Domínguez, S. Lefèvre-Arbogast, D. Y. Low, A. Du Preez, H. Lee, et al. 2024. <span>“Coffee Polyphenols Ameliorate Early-Life Stress-Induced Cognitive Deficits in Male Mice.”</span> <em>Neurobiology of Stress</em> 31 (July). <a href="https://doi.org/10.1016/J.YNSTR.2024.100641">https://doi.org/10.1016/J.YNSTR.2024.100641</a>.
+</div>
+<div id="ref-SanchezPla2023f" class="csl-entry" role="listitem">
+Gregori, Josep, Àlex Sánchez, and Josep Villanueva. 2023. <span>“msmsEDA &amp; msmsTests: Label-Free Differential Expression by Spectral Counts.”</span> <em>Methods in Molecular Biology (Clifton, N.J.)</em> 2426: 197–242. <a href="https://doi.org/10.1007/978-1-0716-1967-4_10">https://doi.org/10.1007/978-1-0716-1967-4_10</a>.
+</div>
+<div id="ref-H2023" class="csl-entry" role="listitem">
+H, Mostafa, Meroño T, Miñarro A, Sanchez-Pla A, Lanuza F, Zamora-Ros R, Rostgaard-Hansen AL, et al. 2023. <span>“Dietary Sources of Anthocyanins and Their Association with Metabolome Biomarkers and Cardiometabolic Risk Factors in an Observational Study.”</span> <em>Nutrients</em>, July. <a href="https://doi.org/10.3390/nu15051208">https://doi.org/10.3390/nu15051208</a>.
+</div>
+<div id="ref-Irigoien2023" class="csl-entry" role="listitem">
+Irigoien, Itziar, Susana Ferreiro, Basilio Sierra, and Concepción Arenas. 2023. <span>“Fuzzy Classification with Distance-Based Depth Prototypes: High-Dimensional Unsupervised and/or Supervised Problems.”</span> <em>Applied Soft Computing</em> 148 (November): 110917. <a href="https://doi.org/10.1016/J.ASOC.2023.110917">https://doi.org/10.1016/J.ASOC.2023.110917</a>.
+</div>
+<div id="ref-Koenig2023" class="csl-entry" role="listitem">
+Koenig, Franz, Cécile Spiertz, Daniel Millar, Sarai Rodríguez-Navarro, Núria Machín, Ann Van Dessel, Joan Genescà, et al. 2023. <span>“Current State-of-the-Art and Gaps in Platform Trials: 10 Things You Should Know, Insights from EU-PEARL.”</span> <em>EClinicalMedicine</em> 67 (January). <a href="https://doi.org/10.1016/J.ECLINM.2023.102384">https://doi.org/10.1016/J.ECLINM.2023.102384</a>.
+</div>
+<div id="ref-Madrenas2020" class="csl-entry" role="listitem">
+Madrenas, Raquel, Joan Balanyà, Concepció Arenas, Manhaz Khadem, and Francesc Mestres. 2020. <span>“Global Warming and Chromosomal Inversion Adaptation in Isolated Islands: Drosophila Subobscura Populations from Madeira.”</span> <em>Entomological Science</em> 23 (March): 74–85. <a href="https://doi.org/10.1111/ENS.12398">https://doi.org/10.1111/ENS.12398</a>.
+</div>
+<div id="ref-Arenas2024a" class="csl-entry" role="listitem">
+Mas-Bermejo, Patricia, Natalia Azcona-Granada, Elionora Peña, Albert Lecube, Andreea Ciudin, Rafael Simó, Alexis Luna, et al. 2024. <span>“Genetic Risk Score Based on Obesity-Related Genes and Progression in Weight Loss After Bariatric Surgery: A 60-Month Follow-up Study.”</span> <em>Surgery for Obesity and Related Diseases</em> 0. <a href="https://doi.org/10.1016/j.soard.2024.04.002">https://doi.org/10.1016/j.soard.2024.04.002</a>.
+</div>
+<div id="ref-SanchezPla202a4" class="csl-entry" role="listitem">
+Midaglia, Luciana, Alex Rovira, Berta Miró, Jordi Río, Nicolás Fissolo, Joaquín Castilló, Alex Sánchez, Xavier Montalban, and Manuel Comabella. 2024. <span>“Association of Magnetic Resonance Imaging Phenotypes and Serum Biomarker Levels with Treatment Response and Long-Term Disease Outcomes in Multiple Sclerosis Patients.”</span> <em>European Journal of Neurology</em> 31 (January). <a href="https://doi.org/10.1111/ENE.16077">https://doi.org/10.1111/ENE.16077</a>.
+</div>
+<div id="ref-Baena2024" class="csl-entry" role="listitem">
+Miret, Sergi Baena, Ferran Reverter Comes, and Esteban Vegas Lozano. 2024. <span>“A Framework for Block-Wise Missing Data in Multi-Omics.”</span> <em>PLOS One</em>, July.
+</div>
+<div id="ref-Monleon2023t" class="csl-entry" role="listitem">
+Monleón-Getino, A., G. Pujol-Muncunill, J. Méndez Viera, L. Álvarez Carnero, W. Sanseverino, A. Paytuví-Gallart, and J. Martín de Carpí. 2023. <span>“A Pilot Study of the Use of the Oral and Faecal Microbiota for the Diagnosis of Ulcerative Colitis and Crohn’s Disease in a Paediatric Population.”</span> <em>Frontiers in Pediatrics</em> 11 (November): 1220976. <a href="https://doi.org/10.3389/FPED.2023.1220976">https://doi.org/10.3389/FPED.2023.1220976</a>.
+</div>
+<div id="ref-SanchezPla2023a" class="csl-entry" role="listitem">
+Mostafa, Hamza, Tomás Meroño, Antonio Miñarro, Alex Sánchez-Pla, Fabián Lanuza, Raul Zamora-Ros, Agnetha Linn Rostgaard-Hansen, et al. 2023. <span>“Dietary Sources of Anthocyanins and Their Association with Metabolome Biomarkers and Cardiometabolic Risk Factors in an Observational Study.”</span> <em>Nutrients</em> 15 (March): 1208. <a href="https://doi.org/10.3390/NU15051208/S1">https://doi.org/10.3390/NU15051208/S1</a>.
+</div>
+<div id="ref-Salicru2024b" class="csl-entry" role="listitem">
+Palma-Guillén, Alfred, Miquel Salicrú, Ariadna Nadal, Xavier Serrat, and Salvador Nogués. 2024. <span>“Non-Chemical Weed Management for Sustainable Rice Production in the Ebro Delta.”</span> <em>Weed Research</em> 64 (June): 227–36. <a href="https://doi.org/10.1111/WRE.12628">https://doi.org/10.1111/WRE.12628</a>.
+</div>
+<div id="ref-Pana2024" class="csl-entry" role="listitem">
+Peña, Elionora, Patricia Mas-Bermejo, Albert Lecube, Andreea Ciudin, Concepción Arenas, Rafael Simó, Mercedes Rigla, Assumpta Caixàs, and Araceli Rosa. 2024. <span>“Use of Polygenic Risk Scores to Assess Weight Loss After Bariatric Surgery: A 5-Year Follow-up Study.”</span> <em>Journal of Gastrointestinal Surgery : Official Journal of the Society for Surgery of the Alimentary Tract</em>, May. <a href="https://doi.org/10.1016/J.GASSUR.2024.05.029">https://doi.org/10.1016/J.GASSUR.2024.05.029</a>.
+</div>
+<div id="ref-Pons2023" class="csl-entry" role="listitem">
+Pons, Joana Villalonga, Mireia Besalú, Anna Samà Camí, and Teresa Sancho-Vinuesa. 2023. <span>“Online Engineering Students’ Learning Strategies.”</span> <em>RIED-Revista Iberoamericana de Educacion a Distancia</em> 26 (July): 237–56. <a href="https://doi.org/10.5944/RIED.26.2.36257">https://doi.org/10.5944/RIED.26.2.36257</a>.
+</div>
+<div id="ref-SanchezPla2023m" class="csl-entry" role="listitem">
+Preez, Andrea Du, Sophie Lefèvre-Arbogast, Raúl González-Domínguez, Vikki Houghton, Chiara de Lucia, Hyunah Lee, Dorrain Y. Low, et al. 2024. <span>“Association of Dietary and Nutritional Factors with Cognitive Decline, Dementia, and Depressive Symptomatology in Older Individuals According to a Neurogenesis-Centred Biological Susceptibility to Brain Ageing.”</span> <em>Age and Ageing</em> 53 (May): ii47–59. <a href="https://doi.org/10.1093/AGEING/AFAE042">https://doi.org/10.1093/AGEING/AFAE042</a>.
+</div>
+<div id="ref-Velasco2024" class="csl-entry" role="listitem">
+Puyó, Pablo Velasco, Alfredo Tagarro, Susana Garcia-Obregon, Olatz Villate Bejarano, Cinta Moraleda, Jorge Huerta Aragonés, Eduardo J. Bardón Cancho, et al. 2024. <span>“Cancer Is Not a Risk Factor for Severe COVID-19 in Children, Except in Patients with Recent Allogeneic Hematopoietic Stem Cell Transplantation or Comorbidities.”</span> <em>Pediatric Blood &amp; Cancer</em> 71. <a href="https://doi.org/10.1002/PBC.31120">https://doi.org/10.1002/PBC.31120</a>.
+</div>
+<div id="ref-Minarr2023" class="csl-entry" role="listitem">
+Rio-Aige, Karla, Aina Fernández-Bargalló, Esteban Vegas-Lozano, Antonio Miñarro-Alonso, Margarida Castell, Marta Selma-Royo, Cecilia Martínez-Costa, Maria José Rodríguez-Lagunas, Maria Carmen Collado, and Francisco José Pérez-Cano. 2023. <span>“Breast Milk Immune Composition Varies During the Transition Stage of Lactation: Characterization of Immunotypes in the MAMI Cohort.”</span> <em>Frontiers in Nutrition</em> 10. <a href="https://doi.org/10.3389/FNUT.2023.1252815">https://doi.org/10.3389/FNUT.2023.1252815</a>.
+</div>
+<div id="ref-RodriguezLuna2024" class="csl-entry" role="listitem">
+Rodriguez-Luna, David, Olalla Pancorbo, Laura Llull, Yolanda Silva, Luis Prats-Sanchez, Marián Muchada, Salvatore Rudilosso, et al. 2024. <span>“Effects of Achieving Rapid, Intensive, and Sustained Blood Pressure Reduction in Intracerebral Hemorrhage Expansion and Functional Outcome.”</span> <em>Neurology</em> 102 (May): e209244. <a href="https://doi.org/10.1212/WNL.0000000000209244">https://doi.org/10.1212/WNL.0000000000209244</a>.
+</div>
+<div id="ref-SanchezPla2023i" class="csl-entry" role="listitem">
+Rujano, Maria A., Jan Willem Boiten, Christian Ohmann, Steve Canham, Sergio Contrino, Romain David, Jonathan Ewbank, et al. 2024. <span>“Sharing Sensitive Data in Life Sciences: An Overview of Centralized and Federated Approaches.”</span> <em>Briefings in Bioinformatics</em> 25 (May). <a href="https://doi.org/10.1093/BIB/BBAE262">https://doi.org/10.1093/BIB/BBAE262</a>.
+</div>
+<div id="ref-Salicru2023a" class="csl-entry" role="listitem">
+Salicrú, Miquel, Ferran Reverter, Mireia Besalú, and Moises Burset. 2023. <span>“Inference with&nbsp;Median Distances: An Alternative to&nbsp;Reduce the&nbsp;Influence of&nbsp;Outlier Populations.”</span> <em>Studies in Systems, Decision and Control</em> 445: 439–46. <a href="https://doi.org/10.1007/978-3-031-04137-2_37">https://doi.org/10.1007/978-3-031-04137-2_37</a>.
+</div>
+<div id="ref-SanchezPla2023h" class="csl-entry" role="listitem">
+Tor-Roca, Alba, Alex Sánchez-Pla, Aniko Korosi, Mercè Pallàs, Paul J. Lucassen, Pol Castellano-Escuder, Ludwig Aigner, et al. 2023. <span>“A Mediterranean Diet-Based Metabolomic Score and Cognitive Decline in Older Adults: A Case-Control Analysis Nested Within the Three-City Cohort Study.”</span> <em>Molecular Nutrition &amp; Food Research</em>. <a href="https://doi.org/10.1002/MNFR.202300271">https://doi.org/10.1002/MNFR.202300271</a>.
+</div>
+<div id="ref-SanchezPla2023j" class="csl-entry" role="listitem">
+Unión-Caballero, Andrea, Tomás Meroño, Raúl Zamora-Ros, Agnetha Linn Rostgaard-Hansen, Antonio Miñarro, Alex Sánchez-Pla, Núria Estanyol-Torres, et al. 2024. <span>“Metabolome Biomarkers Linking Dietary Fibre Intake with Cardiometabolic Effects: Results from the Danish Diet, Cancer and Health-Next Generations MAX Study.”</span> <em>Food &amp; Function</em> 15 (January): 1643–54. <a href="https://doi.org/10.1039/D3FO04763F">https://doi.org/10.1039/D3FO04763F</a>.
+</div>
+<div id="ref-Vegas2023" class="csl-entry" role="listitem">
+Vegas, Esteban, Lluís Serra, Ferran Reverter, Josep Maria Oller, Esteban Vegas, Lluís Serra, Ferran Reverter, and Josep Maria Oller. 2023. <span>“Unveiling Chromosome Changes Compatible with Climate Warming.”</span> <em>New Insights on Principal Component Analysis</em>, November. <a href="https://doi.org/10.5772/INTECHOPEN.1003769">https://doi.org/10.5772/INTECHOPEN.1003769</a>.
+</div>
+<div id="ref-Zawiska2023" class="csl-entry" role="listitem">
+Zawisza-Álvarez, Michał, Jesús Peñuela-Melero, Esteban Vegas, Ferran Reverter, Jordi Garcia-Fernàndez, and Carlos Herrera-Úbeda. 2024. <span>“Exploring Functional Conservation in Silico: A New Machine Learning Approach to RNA-Editing.”</span> <em>Briefings in Bioinformatics</em> 25 (May): 332. <a href="https://doi.org/10.1093/BIB/BBAE332">https://doi.org/10.1093/BIB/BBAE332</a>.
+</div>
+<div id="ref-Zivanovic2023" class="csl-entry" role="listitem">
+Zivanovic, Goran, Concepció Arenas, and Francesc Mestres. 2023. <span>“The Adaptive Value of Chromosomal Inversions and Climatic Change—Studies on the Natural Populations of Drosophila Subobscura from the Balkans.”</span> <em>Insects</em> 14 (July): 596. <a href="https://doi.org/10.3390/INSECTS14070596/S1">https://doi.org/10.3390/INSECTS14070596/S1</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

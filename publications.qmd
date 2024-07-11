@@ -1,0 +1,146 @@
+---
+title: "Data mining on GRBio (2023) publications list"
+author: "Alex Sanchez-Pla"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    embed-resources: true
+    code_folding: true
+    embed_resources: false
+  knit:
+  quarto:
+    chunk_options:
+      echo: true
+      cache: false
+      prompt: false
+      tidy: true
+      comment: NA
+      message: false
+      warning: false
+    knit_options:
+      width: 75
+
+bibliography: Articles/GRBioUB_refsAll_202324.bib # GRBioUB_refs_202324.bib
+# csl: elsevier-harvard-with-titles-with-notes_anna.csl
+nocite: |
+  @*
+---
+
+
+
+# Introduction
+
+This document shows how to perform some exploratory analysis of [GRBio resarch group](http://grbio.upc.edu) production during 2023 and 2024 through the analysis of a bibtex file containing diverse type of references.
+
+```{r}
+if (!requireNamespace("bib2df", quietly = TRUE)) install.packages("bib2df")
+
+
+library(bib2df)
+library(dplyr)
+library(tidyr)
+library(tidytext)
+library(ggplot2)
+library(tidytext)
+library(wordcloud)
+library(openxlsx)
+library(readr)
+library(kableExtra)
+```
+# Get the data
+
+```{r}
+# Leer el archivo .bib
+# Convertir el archivo .bib a un dataframe
+bibfile <- "Articles/GRBioUB_refsAll_202324.bib"
+bib_df <- bib2df(bibfile)
+# str(bib_df)
+```
+
+# Basic information
+
+## Number of entries
+
+```{r}
+num_articles <- nrow(bib_df)
+num_articles
+```
+## Number of authors per paper
+
+```{r}
+
+bib_df <- bib_df %>%
+  mutate(num_authors = sapply(AUTHOR, function(x) length(unlist(strsplit(x, " and "))))) 
+
+numAuthors <- bib_df$num_authors[bib_df$num_authors < 100]
+
+hist(numAuthors, main="Distribution of number of authors per paper")
+
+# summary(numAuthors)
+t(skimr::skim (numAuthors))
+
+```
+
+## Journals 
+
+```{r}
+journal_freq <- bib_df %>%
+  filter(!is.na(JOURNAL)) %>%
+  count(JOURNAL) %>%
+  arrange(desc(n))
+
+# Truncar nombres de revistas demasiado largos
+journal_freq <- journal_freq %>%
+  mutate(JOURNAL = ifelse(nchar(JOURNAL) > 50, paste0(substr(JOURNAL, 1, 50), "..."), JOURNAL))
+
+journal_freq %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = F)
+```
+
+```{r}
+journal_plot <- ggplot(journal_freq, aes(x = reorder(JOURNAL, -n), y = n)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 4)) +
+  labs(title = "Frecuencia de Publicaciones por Revista",
+       x = "Revista",
+       y = "Frecuencia") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 6)) 
+
+print(journal_plot)
+```
+
+## Most common keywords
+
+```{r message=FALSE, warning=FALSE}
+keywords <- bib_df %>%
+  filter(!is.na(KEYWORDS)) %>%
+  unnest_tokens(word, KEYWORDS, token = "regex", pattern = ",") %>%
+  count(word, sort = TRUE)
+
+titlewords <- bib_df %>%
+  filter(!is.na(TITLE)) %>%
+  unnest_tokens(word, TITLE, token = "regex", pattern = " ") %>%
+  filter(!word %in% stopwords::stopwords("en")) %>%
+  count(word, sort = TRUE)
+
+# Generar la nube de palabras
+wordcloud(words = keywords$word, freq = keywords$n, min.freq = 1,
+          max.words = 200, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
+
+wordcloud(words = titlewords$word, freq = titlewords$n, min.freq = 1,
+          max.words = 200, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
+
+```
+
+
+
+# Publications 2023-24
+
+
